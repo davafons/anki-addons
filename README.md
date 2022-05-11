@@ -1,4 +1,4 @@
-# Anki addons
+# Anki add-ons
 
 Repo with a collection of small Anki add-ons written for Anki 2.1.
 
