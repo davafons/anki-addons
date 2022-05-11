@@ -1,6 +1,6 @@
 # Anki add-ons
 
-Repo with a collection of small Anki add-ons written for Anki 2.1.
+Collection of small Anki add-ons written for Anki 2.1.
 
 * Bulk-add Japanese Phonetic Components: [AnkiWeb](https://ankiweb.net/shared/info/1362659377)
 
