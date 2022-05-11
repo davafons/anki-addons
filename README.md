@@ -8,7 +8,7 @@ Collection of small Anki add-ons written for Anki 2.1.
 
 Some of the add-ons found in this repository were adopted from earlier works by other authors. Check the comments on the source files for each add-on for credits to other contributors.
 
-* japanese_phonetic_components: Forked from [gajewsk2/anki-plugin-phonetics](https://github.com/gajewsk2/anki-plugin-phonetics)
+* **src/japanese_phonetic_components**: Forked from [gajewsk2/anki-plugin-phonetics](https://github.com/gajewsk2/anki-plugin-phonetics)
 
 
 ## License
