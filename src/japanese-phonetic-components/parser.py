@@ -7,56 +7,70 @@ import json
 import re
 
 
-def inReading(idx, character, expression, data):
+def __loadPhoneticComponentsData(input_file):
+    file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), input_file)
+    file = codecs.open(file_path, "r", "utf-8")
+    data = json.load(file)
+    return data
+
+
+PHONETIC_COMPONENTS_DATA = __loadPhoneticComponentsData("phonetic-components.json")
+
+
+def getHighlightedPhonetics(expression):
+    return __formatLines(__getPhonetics(expression, PHONETIC_COMPONENTS_DATA))
+
+
+def __formatLines(phonetics):
+    return "<br>".join(phonetics)
+
+
+def __getPhonetics(expression, phoneticComponentsData):
+    phoenetics = []
+    for idx, character in enumerate(expression):
+        if character not in phoneticComponentsData:
+            continue
+
+        kanjiData = phoneticComponentsData[character]
+
+        if __matchReading(idx, character, expression, kanjiData):
+            phoneticsExpression = __buildPhoneticsExpression(character, kanjiData)
+            phoenetics.append(phoneticsExpression)
+
+    return phoenetics
+
+
+def __matchReading(idx, character, expression, kanjiData):
     expression = expression[idx:]
     try:
         expression = expression[: expression.index("]")]
     except ValueError:
         pass
-    for r in data[character]["reading"]:
-        if r in expression:
+
+    for reading in kanjiData["reading"]:
+        if reading in expression:
             return True
     return False
 
 
-def getChars(i):
-    char_delim = "→"
-    chars = i[i.index(char_delim) + 1 :]
-    chars = list(re.sub("[, \n]", "", chars))
-    return chars
+def __buildPhoneticsExpression(kanji, kanjiData):
+    radical = kanjiData["radical"]
+    readings = ", ".join(kanjiData["reading"])
+    relatives = ", ".join(
+        map(lambda relative: __highlightKanji(kanji, relative), kanjiData["relative"])
+    )
+    phonetics = f"{radical} ({readings}) → {relatives}"
+    return phonetics
+    print(phonetics)
 
 
-def highlight(c, raw):
-    delim_index = raw.index("→")
-    chars = (raw)[delim_index:]
-    highlight_index = (chars).index(c)
-    total_index = delim_index + highlight_index
-    highlighted = raw[:total_index] + "<b>" + c + "</b>" + raw[total_index + 1 :]
-    return highlighted
+def __highlightKanji(kanji, relative):
+    if kanji == relative:
+        return f"<b>{relative}</b>"
+    else:
+        return relative
 
 
-def formatLines(phonetics):
-    return "<br>".join(phonetics)
-
-
-def getPhonetic(expression, data):
-    phoenetics = []
-    for idx, c in enumerate(expression):
-        if c in data:
-            if inReading(idx, c, expression, data):
-                raw = data[c]["raw"]
-                phoenetics.append(highlight(c, raw))
-
-    return phoenetics
-
-
-def getHighlightedPhonetics(expression):
-    input_file = "data.json"
-    data = PHONETIC_COMPONENTS_DATA(input_file)
-    return formatLines(getPhonetic(expression, data))
-
-
-#
 # if __name__ == '__main__':
 #     getHighlightedPhonetics(u'...について')
 #     getHighlightedPhonetics('この 町[まち]には 消防署[しょうぼうしょ]が 1[ひと]つしかありません。')

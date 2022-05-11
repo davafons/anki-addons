@@ -1,13 +1,13 @@
 from aqt import mw
-from .parser import getHighlightedPhonetics
-
-config = mw.addonManager.getConfig(__name__)
-
-srcFields = config["srcFields"]
-dstFields = config["dstFields"]
+from . import parser
 
 
 def regeneratePhonetics(nids):
+    config = mw.addonManager.getConfig(__name__)
+
+    srcFields = config["srcFields"]
+    dstFields = config["dstFields"]
+
     mw.checkpoint("JapanesePhoneticComponents")
     mw.progress.start()
 
@@ -18,6 +18,7 @@ def regeneratePhonetics(nids):
 
         for (src, dst) in zip(srcFields[:fields_length], dstFields[:fields_length]):
             if src not in note or dst not in note:
+                # missing fields, skip
                 continue
 
             if note[dst]:

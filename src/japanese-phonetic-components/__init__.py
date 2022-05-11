@@ -9,15 +9,6 @@ from .phonetics import regeneratePhonetics
 
 buttonText = "Bulk-add Phonetics (Dev)"
 
-PHONETIC_COMPONENTS_DATA = loadPhoneticComponentsData("phonetic-components.json")
-
-
-def loadPhoneticComponentsData(input_file):
-    file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), input_file)
-    file = codecs.open(file_path, "r", "utf-8")
-    data = json.load(file)
-
-
 def onRegenerate(browser):
     regeneratePhonetics(browser.selected_notes())
 
