@@ -7,7 +7,8 @@ from aqt.qt import *
 
 from .phonetics import regeneratePhonetics
 
-buttonText = "Bulk-add Phonetics (Dev)"
+buttonText = "Bulk-add Phonetics"
+
 
 def onRegenerate(browser):
     regeneratePhonetics(browser.selected_notes())
