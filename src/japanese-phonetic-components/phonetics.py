@@ -1,10 +1,11 @@
 from aqt import mw
-from . import parser
+from .parser import getHighlightedPhonetics
 
 config = mw.addonManager.getConfig(__name__)
 
 srcFields = config["srcFields"]
 dstFields = config["dstFields"]
+
 
 def regeneratePhonetics(nids):
     mw.checkpoint("JapanesePhoneticComponents")
