@@ -61,7 +61,6 @@ def __buildPhoneticsExpression(kanji, kanjiData):
     )
     phonetics = f"{radical} ({readings}) → {relatives}"
     return phonetics
-    print(phonetics)
 
 
 def __highlightKanji(kanji, relative):
